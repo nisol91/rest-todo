@@ -66,7 +66,7 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
       $('.list').addClass('bordo')
       $.ajax({
         url: urlApi,
-        method: 'UPDATE',
+        method: 'PUT',
         data: {
           text: $(this).siblings('.elem_input').val()
         },
