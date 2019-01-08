@@ -26,54 +26,59 @@ $(document).ready(function() {
         text: inp,
       },
       success: function(data) {
-        console.log(data);
+        getData();
+        //NB!!!! questa chiamata ajax che riaggiorna la lista va sempre nel success, non dopo o prima la chiamata
       },
       error: function() {
         alert('errore');
       }
     })
-    getData();
   });
 //-------------------delete
+
+
+
+
 $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni appesi, bisogna usare on
   $('.list').addClass('bordo')
 
-  var identifier = $(this).index()
+
+//questa e' la forma per cancellare: innanzitutto aggiungo /id nell url, e per portare dentro l id lo prendo da attr
+  var identifier = $(this).siblings('h4').find('span').attr('data_id')
   console.log(identifier);
 
-  // $.ajax({
-  //   url: urlApi,
-  //   method: 'DELETE',
-  //   data: {
-  //     id: identifier,
-  //   },
-  //   success: function(data) {
-  //     console.log(data);
-  //   },
-  //   error: function() {
-  //     alert('errore');
-  //   }
-  // })
-  getData()
+  $.ajax({
+    url: urlApi +'/'+ identifier,
+    method: 'DELETE',
+    success: function(data) {
+      getData();
+      //NB!!!! questa chiamata ajax che riaggiorna la lista va sempre nel success, non dopo o prima la chiamata
+    },
+    error: function() {
+      alert('errore');
+    }
+  })
 });
   //-------------------update
-    // $('my_button_iii').click(function() {
-    //   $('.list').addClass('bordo')
-    //   $.ajax({
-    //     url: urlApi,
-    //     method: 'UPDATE',
-    //     data: {
-    //       id:
-    //     },
-    //     success: function(data) {
-    //       console.log(data);
-    //     },
-    //     error: function() {
-    //       alert('errore');
-    //     }
-    //   })
-    //   getData()
-    // });
+  $(document).on('click', '.my_button_iii', function() {
+
+      console.log($(this).siblings('.elem_input').val());
+      $('.list').addClass('bordo')
+      $.ajax({
+        url: urlApi,
+        method: 'UPDATE',
+        data: {
+          text: $(this).siblings('.elem_input').val()
+        },
+        success: function(data) {
+          console.log(data);
+          getData()
+        },
+        error: function() {
+          alert('errore');
+        }
+      })
+    });
 
 
 
@@ -95,16 +100,17 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
   }
 
 
+
   function printData(obj) {
     //prima di stampare azzero il contenuto dell html se no non sostituisce ma aggiunge sempre contenuto sotto
     $('.list').html('')
+
     for (var i = 0; i < obj.length; i++) {
-      // $('.list').append('<div> - ' + ' <span id="deletes">x</span> ' + obj[i].text + '</div>')
       var elem_copy = $('.templates .list_elem').clone()
-      console.log(elem_copy);
-      console.log(obj[i].text);
       $('.list').append(elem_copy)
-      elem_copy.find('input').val('- ' + obj[i].text + '  (id =' + obj[i].id + ')')
+      elem_copy.find('input').val('- ' + obj[i].text)
+      elem_copy.find('h5').text('  (data_id =' + obj[i].id + ')')
+      elem_copy.find('h4').html('<span data_id="' + obj[i].id + '"></span>')
     }
   }
 
