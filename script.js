@@ -63,9 +63,14 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
   $(document).on('click', '.my_button_iii', function() {
 
       console.log($(this).siblings('.elem_input').val());
+      var identifier = $(this).siblings('h4').find('span').attr('data_id')
+      console.log(identifier);
+
       $('.list').addClass('bordo')
+
+      //per il PUT ovvero l UPDATE, devo sempre specificare l'id che voglio aggiornare!!!(come per delete)
       $.ajax({
-        url: urlApi,
+        url: urlApi +'/'+ identifier,
         method: 'PUT',
         data: {
           text: $(this).siblings('.elem_input').val()
@@ -108,7 +113,7 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
     for (var i = 0; i < obj.length; i++) {
       var elem_copy = $('.templates .list_elem').clone()
       $('.list').append(elem_copy)
-      elem_copy.find('input').val('- ' + obj[i].text)
+      elem_copy.find('input').val(obj[i].text)
       elem_copy.find('h5').text('  (data_id =' + obj[i].id + ')')
       elem_copy.find('h4').html('<span data_id="' + obj[i].id + '"></span>')
     }
