@@ -1,4 +1,4 @@
-var urlApi = 'http://157.230.17.132:3017/todos'
+var urlApi = 'http://157.230.17.132:3000/todos'
 
 $(document).ready(function() {
 //-------------------only to view list
@@ -11,6 +11,8 @@ $(document).ready(function() {
   $('.my_button').click(function() {
 
     $('.list').addClass('bordo')
+
+
 
     var inp = $('.my_input').val()
     console.log(inp);
@@ -66,6 +68,12 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
       var identifier = $(this).siblings('h4').find('span').attr('data_id')
       console.log(identifier);
 
+
+
+
+      // var questo_e = $(this).siblings('.list .data-a')
+      // getTime(questo_e)
+
       $('.list').addClass('bordo')
 
       //per il PUT ovvero l UPDATE, devo sempre specificare l'id che voglio aggiornare!!!(come per delete)
@@ -104,7 +112,20 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
     })
   }
 
+  //inserisco la data
+  var orari = []
+  function getTime(elem) {
 
+
+    var today = new Date();
+    var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    var actual_time = date + ' , ' + time
+    elem.find('.data-a h4').text(actual_time)
+    console.log(actual_time);
+    orari.push(actual_time)
+    console.log(orari);
+  }
 
   function printData(obj) {
     //prima di stampare azzero il contenuto dell html se no non sostituisce ma aggiunge sempre contenuto sotto
@@ -116,6 +137,8 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
       elem_copy.find('input').val(obj[i].text)
       elem_copy.find('h5').text('  (data_id =' + obj[i].id + ')')
       elem_copy.find('h4').html('<span data_id="' + obj[i].id + '"></span>')
+      getTime(elem_copy)
+
     }
   }
 
