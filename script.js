@@ -16,9 +16,11 @@ $(document).ready(function() {
 
     var inp = $('.my_input').val()
     console.log(inp);
-    //a ogni click mi ricrea tutta la lista ripescandola dal server. Ho messo la chiamata in questa funzione.
-    //in pratica, ogni volta che faccio qualcosa, mi richiama tutta la lista modificata con post, update e delete,
-    //e me la ristampa con la funzione printData
+
+
+    //orario da moment.js
+    var tempo = moment().format("DD/MMMM/YYYY, h:mm:ss a");
+
 
     $.ajax({
       url: urlApi,
@@ -26,8 +28,12 @@ $(document).ready(function() {
       //quando faccio POST, devo sempre mettere dei data da salvare nel server
       data: {
         text: inp,
+        time: tempo,
       },
       success: function(data) {
+        //a ogni click mi ricrea tutta la lista ripescandola dal server. Ho messo la chiamata in questa funzione.
+        //in pratica, ogni volta che faccio qualcosa, mi richiama tutta la lista modificata con post, update e delete,
+        //e me la ristampa con la funzione printData
         getData();
         //NB!!!! questa chiamata ajax che riaggiorna la lista va sempre nel success, non dopo o prima la chiamata
       },
@@ -68,11 +74,9 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
       var identifier = $(this).siblings('h4').find('span').attr('data_id')
       console.log(identifier);
 
+      //orario da moment.js
+      var tempo = moment().format("DD/MMMM/YYYY, h:mm:ss a");
 
-
-
-      // var questo_e = $(this).siblings('.list .data-a')
-      // getTime(questo_e)
 
       $('.list').addClass('bordo')
 
@@ -81,11 +85,15 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
         url: urlApi +'/'+ identifier,
         method: 'PUT',
         data: {
-          text: $(this).siblings('.elem_input').val()
+          text: $(this).siblings('.elem_input').val(),
+          time: tempo,
+          //io posso aggiungere campi al mio oggetto data quando faccio una chiamata
         },
         success: function(data) {
           console.log(data);
           getData()
+          console.log(tempo);
+
         },
         error: function() {
           alert('errore');
@@ -113,19 +121,19 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
   }
 
   //inserisco la data
-  var orari = []
-  function getTime(elem) {
-
-
-    var today = new Date();
-    var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-    var actual_time = date + ' , ' + time
-    elem.find('.data-a h4').text(actual_time)
-    console.log(actual_time);
-    orari.push(actual_time)
-    console.log(orari);
-  }
+  // var orari = []
+  // function getTime(elem) {
+  //
+  //
+  //   var today = new Date();
+  //   var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+  //   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+  //   var actual_time = date + ' , ' + time
+  //   elem.find('.data-a h4').text(actual_time)
+  //   console.log(actual_time);
+  //   orari.push(actual_time)
+  //   console.log(orari);
+  // }
 
   function printData(obj) {
     //prima di stampare azzero il contenuto dell html se no non sostituisce ma aggiunge sempre contenuto sotto
@@ -137,8 +145,7 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
       elem_copy.find('input').val(obj[i].text)
       elem_copy.find('h5').text('  (data_id =' + obj[i].id + ')')
       elem_copy.find('h4').html('<span data_id="' + obj[i].id + '"></span>')
-      getTime(elem_copy)
-
+      elem_copy.find('.data-a h4').text(obj[i].time)
     }
   }
 
