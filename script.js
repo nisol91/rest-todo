@@ -48,7 +48,7 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
   $('.list').addClass('bordo')
 
 
-//questa e' la forma per cancellare: innanzitutto aggiungo /id nell url, e per portare dentro l id lo prendo da attr
+//questa e' la forma per cancellare: innanzitutto aggiungo /id nell url(id NON e' da mettere nei data), e per portare dentro l id lo prendo da attr
   var identifier = $(this).siblings('h4').find('span').attr('data_id')
   console.log(identifier);
 
