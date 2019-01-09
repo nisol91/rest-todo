@@ -44,9 +44,6 @@ $(document).ready(function() {
   });
 //-------------------delete
 
-
-
-
 $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni appesi, bisogna usare on
   $('.list').addClass('bordo')
 
@@ -120,20 +117,7 @@ $(document).on('click', '.list .fa-times', function() {//NB!!!! sono elemeni app
     })
   }
 
-  //inserisco la data
-  // var orari = []
-  // function getTime(elem) {
-  //
-  //
-  //   var today = new Date();
-  //   var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-  //   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-  //   var actual_time = date + ' , ' + time
-  //   elem.find('.data-a h4').text(actual_time)
-  //   console.log(actual_time);
-  //   orari.push(actual_time)
-  //   console.log(orari);
-  // }
+
 
   function printData(obj) {
     //prima di stampare azzero il contenuto dell html se no non sostituisce ma aggiunge sempre contenuto sotto
